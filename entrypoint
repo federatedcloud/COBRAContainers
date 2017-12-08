@@ -1,0 +1,15 @@
+#!/bin/bash
+SOURCE_NIX="source $ENVSDIR/.nix-profile/etc/profile.d/nix.sh"
+${SOURCE_NIX}
+rsync -a $HOME_TEMPLATE/ $HOME
+grep -q -F "${SOURCE_NIX}" $HOME/.bashrc || printf "\n$SOURCE_NIX\n" >> $HOME/.bashrc
+PS1_MOD='export PS1='\''\u@\h-COBRA:\w\n\$ '\'''
+eval $PS1_MOD
+grep -q -F "${PS1_MOD}" $HOME/.bashrc || printf "\n$PS1_MOD\n" >> $HOME/.bashrc
+
+SET_DYNAMIC_ENV="source $HOME/workspace/docker-nix-intellij/nix-env-dynamic.sh"
+eval $SET_DYNAMIC_ENV
+grep -q -F "${SET_DYNAMIC_ENV}" $HOME/.bashrc || printf "\n$SET_DYNAMIC_ENV\n" >> $HOME/.bashrc
+
+tmux
+

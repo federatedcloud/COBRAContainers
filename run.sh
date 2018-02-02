@@ -20,15 +20,13 @@ USER_ID=$(id -u $(whoami))
 GROUP_ID=$(id -g $(whoami))
 HOME_DIR=$(cut -d: -f6 < <(getent passwd ${USER_ID}))
 HOME_DIR_HOST="$HOME_DIR/DevContainerHome"
-#
-#TODO: pass WORK_DIR and REPO_DIR (this repo) to container environment
-#
-WORK_DIR="$HOME_DIR/workspace"
+WORK_DIR=${WORK_DIR:="$HOME_DIR/workspace"}
+echo "WORK_DIR is ${WORK_DIR}"
 
 # Need to give the container access to your windowing system
 # Further reading: http://wiki.ros.org/docker/Tutorials/GUI
 # and http://gernotklingler.com/blog/howto-get-hardware-accelerated-opengl-support-docker/
-export DISPLAY=:0
+export DISPLAY=${DISPLAY:=":0"}
 xhost +
 
 PULL="docker pull ${COBRA_IMAGE}"

@@ -8,9 +8,13 @@ DOCKER=docker
 if [ -x "$(command -v nvidia-docker)" ]; then
     DOCKER=nvidia-docker
 fi
-echo "DOCKER cmd is $DOCKER"
 
-    
+MATLAB_PATH=$(dirname $(dirname $(readlink -f $(which matlab))))
+
+echo "DOCKER cmd is $DOCKER"
+echo "COBRA Image is ${COBRA_IMAGE}"
+echo "MATLAB_PATH is ${MATLAB_PATH}"
+
 DOCKER_GROUP_ID=$(cut -d: -f3 < <(getent group docker))
 USER_ID=$(id -u $(whoami))
 GROUP_ID=$(id -g $(whoami))
@@ -27,7 +31,7 @@ WORK_DIR="$HOME_DIR/workspace"
 export DISPLAY=:0
 xhost +
 
-PULL="docker pull ${COBRAIMAGE}"
+PULL="docker pull ${COBRA_IMAGE}"
 
 echo ${PULL}
 ${PULL}
@@ -43,17 +47,17 @@ CMD="${DOCKER} run --detach=true \
                 --env HOME=${HOME_DIR} \
                 --env DISPLAY \
                 --interactive \
-                --name DevContainer \
+                --name COBRA \
                 --net=host \
                 --rm \
                 --tty \
                 --user=${USER_ID}:${GROUP_ID} \
-                --volume /usr/local/MATLAB/R2017b:/opt/MATLAB \
+                --volume ${MATLAB_PATH}:/opt/MATLAB \
                 --volume $HOME_DIR_HOST:${HOME_DIR} \
                 --volume $WORK_DIR:${WORK_DIR} \
                 --volume /tmp/.X11-unix:/tmp/.X11-unix \
                 --volume /var/run/docker.sock:/var/run/docker.sock \
-                ${COBRAIMAGE}"
+                ${COBRA_IMAGE}"
 
 echo $CMD
 CONTAINER=$($CMD)

@@ -34,7 +34,6 @@ RUN echo "nixbld:x:30000:nixbld1,nixbld2,nixbld3,nixbld4,nixbld5,nixbld6,nixbld7
 
 COPY ./config.nix $HOME/.config/nixpkgs/
 COPY ./cobra-default.nix $ENVSDIR/
-COPY ./.home_sync_ignore $HOME/
 RUN chown -R $nixuser:$nixuser $ENVSDIR $HOME
 
 #

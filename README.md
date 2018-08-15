@@ -12,4 +12,4 @@ In short:
 2. `./run.sh`
 3. `cd ~/workspace/COBRAContainers/nix/shells/MATLAB`
 4. `nix-shell default.nix`
-5. `matlab`
+5. `matlab -nodesktop -nodisplay`

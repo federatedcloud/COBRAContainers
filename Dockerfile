@@ -1,6 +1,7 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-ARG nixuser
+#ARG nixuser
+ENV nixuser cobra
 ENV ENVSDIR /nixenv/$nixuser
 ENV HOME /home/$nixuser
 ENV HOME_TEMPLATE /template/$nixuser
@@ -16,7 +17,8 @@ RUN adduser --disabled-password --gecos "" $nixuser && \
   chown -R $nixuser:$nixuser /nix $ENVSDIR $HOME $HOME_TEMPLATE
   
 RUN echo "nameserver 8.8.8.8" | tee /etc/resolv.conf > /dev/null && \
-  apt-get update -y && apt-get install -y --no-install-recommends bzip2 ca-certificates wget && \
+  apt-get update -y && apt-get install -y --no-install-recommends bzip2 ca-certificates \
+  curl wget && \
   apt-get clean && \
   wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -P /etc/bash_completion.d/
 
@@ -44,7 +46,7 @@ RUN apt-get install -y --no-install-recommends x11-apps && \
 
 USER $nixuser
 
-RUN wget -O- http://nixos.org/releases/nix/nix-1.11.15/nix-1.11.15-x86_64-linux.tar.bz2 | bzcat - | tar xf - \
+RUN wget -O- http://nixos.org/releases/nix/nix-2.0.4/nix-2.0.4-x86_64-linux.tar.bz2 | bzcat - | tar xf - \
     && USER=$nixuser HOME=$ENVSDIR sh nix-*-x86_64-linux/install
 
 
@@ -54,16 +56,17 @@ RUN wget -O- http://nixos.org/releases/nix/nix-1.11.15/nix-1.11.15-x86_64-linux.
 # 
 ENV \
     PATH=$ENVSDIR/.nix-profile/bin:$ENVSDIR/.nix-profile/sbin:/bin:/sbin:/usr/bin:/usr/sbin \
-    GIT_SSL_CAINFO=/etc/ssl/certs/ca-certificates.crt \
-    NIX_SSL_CERT_FILE=$ENVSDIR/.nix-profile/etc/ssl/certs/ca-bundle.crt \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt \
+    GIT_SSL_CAINFO=/etc/ssl/certs/ca-bundle.crt \
+    NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt \
     NIX_PATH=/nix/var/nix/profiles/per-user/$ENVSDIR/channels/
   
 ENV nixenv ". $ENVSDIR/.nix-profile/etc/profile.d/nix.sh"
 
-RUN $nixenv && nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs && \
-  nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+RUN $nixenv && nix-channel --add http://nixos.org/channels/nixpkgs-unstable nixpkgs && \
+  nix-channel --add http://nixos.org/channels/nixos-unstable nixos
   
-RUN $nixenv && nix-channel --update
+RUN $nixenv && SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt nix-channel --update
 
 #
 # Initialize environment a bit for faster container spinup/use later

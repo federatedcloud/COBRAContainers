@@ -164,6 +164,23 @@ in {
   };
 
   virtualisation.docker.enable = true;
+
+  system.activationScripts = {
+    text = ''
+      ln -sfn /run/current-system/sw/bin/bash /bin/bash
+      ln -sfn /run/current-system/sw/bin/cat /bin/cat      
+      ln -sfn /run/current-system/sw/bin/chown /bin/chown
+      ln -sfn /run/current-system/sw/bin/chmod /bin/chmod
+      ln -sfn /run/current-system/sw/bin/dd /bin/dd
+      ln -sfn /run/current-system/sw/bin/grep /bin/grep
+      ln -sfn /run/current-system/sw/bin/mktemp /bin/mktemp
+      ln -sfn /run/current-system/sw/bin/pwd /bin/pwd      
+      ln -sfn /run/current-system/sw/bin/python /bin/python
+      ln -sfn /run/current-system/sw/bin/rm /bin/rm
+      
+      mkdir -p /sbin
+    '';
+  };
   
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "16.03";

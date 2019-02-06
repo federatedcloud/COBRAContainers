@@ -20,7 +20,9 @@ stdenv.mkDerivation {
 
   libPath = stdenv.lib.makeLibraryPath [
     mesa_glu
+    pam
     ncurses
+    xorg.libxcb
     xorg.libXi
     xorg.libXext
     xorg.libXmu
@@ -36,10 +38,14 @@ stdenv.mkDerivation {
   ];
   src = null;
   shellHook = ''
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/MATLAB/bin/glnxa64:${xorg.libXxf86vm}/lib
-    export PATH=$PATH:/opt/MATLAB/bin
+    export MATLAB_VERSION=R2017a
+    export MATLAB_PATH=/opt/MATLAB/$MATLAB_VERSION
+    export PATH=$PATH:$MATLAB_PATH/bin
     export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
     export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
     export GRB_LICENSE_FILE="$HOME/gurobi_CAC.lic"
+
+    source patchMATLAB.sh
+
   '';
 }

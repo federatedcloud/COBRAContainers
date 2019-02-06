@@ -42,8 +42,8 @@ stdenv.mkDerivation {
     export MATLAB_VERSION=R2017a
     export MATLAB_PATH=/opt/MATLAB/$MATLAB_VERSION
     export PATH=$PATH:$MATLAB_PATH/bin
-    export GUROBI_HOME="${myGurobi.out}"
-    export GUROBI_PATH="${myGurobi.out}"
+    export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
+    export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
     # export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
     export GRB_LICENSE_FILE="$HOME/gurobi.lic"
 

@@ -15,20 +15,20 @@ stdenv.mkDerivation {
   };
   buildInputs = [ python27 ];
   installPhase = ''
-    mkdir -p $out
-    cp -R ${gurobiPlatform}/* $out/
-    echo "CAT DYN LINK START"
-    cat $NIX_CC/nix-support/dynamic-linker
-    echo "CAT DYN LINK END"
-    for exfi in $out/bin ; do
-      if [[ -x "$exfi" && -f "$exfi" && ! -L "$exfi" ]]; then
+    mkdir -p $out/${gurobiPlatform}
+    cp -R ${gurobiPlatform}/* $out/${gurobiPlatform}
+    rm $out/${gurobiPlatform}/bin/python2.7
+    for exfi in $out/${gurobiPlatform}/bin/* ; do
+      echo "EXFI is $exfi"
+      if isELF "$exfi"; then
         patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
           --set-rpath "$libPath:$(patchelf --print-rpath $exfi)" \
 	  --force-rpath $exfi
       fi;
     done
-    rm $out/bin/python2.7
-    ln -s ${python27}/bin/python2.7 $out/bin/python2.7
+    ln -s $out/${gurobiPlatform}/bin $out/bin
+    ln -s $out/${gurobiPlatform}/lib $out/lib
+    ln -s ${python27}/bin/python2.7 $out/${gurobiPlatform}/bin/python2.7
   '';
-  GUROBI_HOME = "$out";
+  GUROBI_HOME = "$out/${gurobiPlatform}";
 }

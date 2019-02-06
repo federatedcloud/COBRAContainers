@@ -16,6 +16,24 @@ In short:
 
 ### Nix
 
+#### Each time
+
 3. `cd ~/workspace/COBRAContainers/nix/shells/MATLAB`
 4. `nix-shell default.nix`
 5. `matlab -glnxa64`
+
+#### One-time-only for gurobi
+
+In the nix-shell enviroment:
+0. cp cp $GUROBI_HOME/examples/matlab/mip1.m ~/Documents/MATLAB/
+1. `echo $GUROBI_HOME`
+
+In matlab (started from the nix-shell environment)
+
+2. `cd` to that directory in MATLAB, then `cd matlab`
+3. `gurobi_setup`
+4. `cd ~/Documents/MATLAB/`
+5. `mip1`
+
+You should see a solution printed out.
+

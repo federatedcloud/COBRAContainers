@@ -15,13 +15,14 @@ stdenv.mkDerivation {
   buildInputs = [
     matlabGcc
     makeWrapper
+    myGurobi
     zlib
   ];
 
   libPath = stdenv.lib.makeLibraryPath [
     mesa_glu
-    pam
     ncurses
+    pam
     xorg.libxcb
     xorg.libXi
     xorg.libXext
@@ -41,9 +42,10 @@ stdenv.mkDerivation {
     export MATLAB_VERSION=R2017a
     export MATLAB_PATH=/opt/MATLAB/$MATLAB_VERSION
     export PATH=$PATH:$MATLAB_PATH/bin
-    export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
-    export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
-    export GRB_LICENSE_FILE="$HOME/gurobi_CAC.lic"
+    export GUROBI_HOME="${myGurobi.out}"
+    export GUROBI_PATH="${myGurobi.out}"
+    # export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
+    export GRB_LICENSE_FILE="$HOME/gurobi.lic"
 
     source patchMATLAB.sh
 

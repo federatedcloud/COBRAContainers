@@ -8,7 +8,7 @@
     [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix>
     ];
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "ehci_pci" "virtio_pci" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "virtio_blk" ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
@@ -17,7 +17,12 @@
       fsType = "ext4";
     };
 
+  fileSystems."/opt" =
+    { device = "/dev/disk/by-uuid/95392be2-77a8-4d72-837b-6e86021cb0e2";
+      fsType = "ext4";
+    };
+
   swapDevices = [ ];
 
-  nix.maxJobs = 2;
+  nix.maxJobs = lib.mkDefault 1;
 }

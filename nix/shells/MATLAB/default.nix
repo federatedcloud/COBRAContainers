@@ -30,7 +30,7 @@ stdenv.mkDerivation {
   name = "impureMatlabEnv";
   inherit matlabGcc;
   buildInputs = [
-    cobraToolboxLocal # TODO: MATLAB should be dep of this (swap relationship)
+    # cobraToolboxLocal # TODO: MATLAB should be dep of this (swap relationship)
     matlabGcc
     makeWrapper
     myGurobi
@@ -62,8 +62,16 @@ stdenv.mkDerivation {
     export PATH=$PATH:$MATLAB_PATH/bin
     export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
     export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
-    # export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
-    export GRB_LICENSE_FILE="$HOME/gurobi.lic"
+
+    export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
+    #
+    # The single-user license files somewhat annoyingly keeps track of how many
+    # sockets are present, so we need a different license and license file
+    # for each case:
+    # export GRB_LICENSE_FILE="$HOME/gurobi_4_sockets.lic"
+    #
+    # This is not an issue for the multi-site license above (gurobi_CAC.lic)
+    #
 
     export COBRA_HOME=${cobraToolboxLocal.out}
 

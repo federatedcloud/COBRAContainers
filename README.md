@@ -22,6 +22,9 @@ In short:
 4. `nix-shell default.nix`
 5. `matlab -glnxa64`
 
+Alternatively, append `-nodesktop -nodisplay` to the `matlab` command
+when running in the terminal.
+
 #### One-time-only for gurobi
 
 In the nix-shell enviroment:

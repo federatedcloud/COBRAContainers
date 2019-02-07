@@ -8,11 +8,29 @@ let
   matlabGcc = gcc49;
   gurobiPlatform = "linux64";
   myGurobi = (import ../../packages/gurobi/default.nix);
+  cobraToolboxLocal = stdenv.mkDerivation {
+    # This is a bit backwards, as it really should depend on MATLAB, once it is
+    # converted into a derivation
+    name = "cobraToolbox-local";
+    src = fetchgit {
+      url = "https://github.com/opencobra/cobratoolbox.git";
+      rev = "f3fe20df5c977cf0d212e12b1763bd96d15c8760";
+      sha256 = "0gqrpa1p51x0dp9m80q5b22xzfvzax2z03y0hg5zhw5qhhix08gl";
+    };
+    buildInputs =  [ ];
+    builder = builtins.toFile "builder.sh" ''
+      source $stdenv/setup
+      mkdir -p $out
+      cp -R $src/* $out/
+      # TODO: initCobraToolbox
+    '';
+  };
 in
 stdenv.mkDerivation {
   name = "impureMatlabEnv";
   inherit matlabGcc;
   buildInputs = [
+    cobraToolboxLocal # TODO: MATLAB should be dep of this (swap relationship)
     matlabGcc
     makeWrapper
     myGurobi
@@ -46,6 +64,8 @@ stdenv.mkDerivation {
     export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
     # export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
     export GRB_LICENSE_FILE="$HOME/gurobi.lic"
+
+    export COBRA_HOME=${cobraToolboxLocal.out}
 
     source patchMATLAB.sh
 

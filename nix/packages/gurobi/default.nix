@@ -15,6 +15,11 @@ stdenv.mkDerivation {
   };
   buildInputs = [ python27 ];
   installPhase = ''
+    #
+    # Note: the reason files are extracted to $out/${gurobiPlatform}
+    #       instead of just $out is because certain gurobi scripts
+    #       depend on this.
+    #
     mkdir -p $out/${gurobiPlatform}
     cp -R ${gurobiPlatform}/* $out/${gurobiPlatform}
     rm $out/${gurobiPlatform}/bin/python2.7

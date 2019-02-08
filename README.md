@@ -28,7 +28,8 @@ when running in the terminal.
 #### One-time-only for gurobi
 
 In the nix-shell enviroment:
-0. cp cp $GUROBI_HOME/examples/matlab/mip1.m ~/Documents/MATLAB/
+
+0. `cp $GUROBI_HOME/examples/matlab/mip1.m ~/Documents/MATLAB/`
 1. `echo $GUROBI_HOME`
 
 In matlab (started from the nix-shell environment)

@@ -91,6 +91,7 @@ in {
     # Editors
     emacs vim nano
     # Desktop
+    firefox
     icewm
     # Development
     git git-lfs tmux

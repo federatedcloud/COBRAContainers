@@ -50,6 +50,7 @@ let
          - power-state-change
     '';
   beb82PubRSA = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvfDUTxx/eLkFRFZahGAqb7UPI32qSxf+SIEzIsa0ZQ3fGyQpGXwmWUXaJUyK30VedOZ6pnj9McBJ5g3qZm/eTRVcVgOP6KqG/YnChg5Qg7O3fROjeVY77LuYs6MCKavF+nE+CTgQ7IbRYlAMkdaMM6DElQ0huQIf/ekmP9yWvd25fuHoCHMDSB3kfzOU6C+fr0qIuQQkj/oq++pRMYbVgZ6RESWV83ULmorLrn/otH+/DInrVIclA+RsF188VfaJQQOCFNO0eVlBKgl+zFqdTB4XVu3TOTq7mAsAfv08qE5msyv8fZaZLLoL935ktiuogQCy8vgYrhLPb9/mILNqqnWuoozjNDdu7kwZcOg5OzsVhxuhOx70MJHZeBwkXI2O6194ioTWIn4GeI1OBabeaLl5Wp+TfPIL87QSXM9vk1IvAg44Mdux+teuBmdZXtzi4TgtKIs1fX3l3jMmSTmxzU7Mm72Nm2Aa11SVlYprqolOz+rrOiDCelnhhOmG55EbYLlm9nC3dnqULRj9pfrRBvUpWtV+jEyI7nhqx8XFvKf6jSq68JeY0QN1xKaekiNnN0Bo3VoNAtj9DBYfOTlCfs67VxL5+Cvn87wsOfQrdCmeU2TLCAL1UzhNaRHvHsqt30+8NeMe/O/sgwSHHWFbZp0Aq+yb4RBNpEFMB4UjSxw== beb82@cornell.edu";
+  na423PubRSA = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCdlUjrUC4EsIFNvq2DfQMLB5JZWFfveZLk/GaS+gnHOPNgQf6pNmrFSOqAbeGdl7W6R3YxO6KolGDTeBokFNLwU5VL+MPyuGJqW5UUSvjFhAhptlVI+DGJ1Fq1OgO0OsEL0F8TvFplbLr5zsW3cUYA9eJMg2nnAGcKdHOYnylcQ/z5YyHMwNt1acNSr5kLoKDlxgqPsCLZv6ELpPIIzqyunGTI05KhQzHeJFphOf7ZH2UB0f+wtW0wCX+2ITByAqKBaWgHvIAoczn6JWAwi2OjmxUECgFmbUZIUYmYEzfOeW25c8Iv+aTIKASdLvPGiOOSjXWr4L6wM3uiCbLptjLXOS48ODkY8ukRi/74c4AuulZJGrPxK631up+Uar67RvOm5Mf8HeXtdljY5iYmpud8ygm8uD/PLTuA4SI7vpYKaXWYvfFs6S/m7FUdcCV8d3o1EHS4rf4W/OJ63+QQJmNdD7wb5ppLr3AM0FARYWAMP5JuLwf+70AQ/usWnNzIt/wV1ctWI4M3OkvSPDDiZs/w23SSJ2OgT77X4lbe31aFwR1DgLS3+0pw5MeGenXZom7LKQlcOx/oDutRKxxG/PwrKfQxtg9u2kiCCvxFwZCBPXtIhZCtnbjoX1/0SYAGbbF6+Uh4WhnkhRl5PsYiMP+G5ZxQc3BJa1pd0TO1gbPdVw== na423@cornell.edu";
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -162,6 +163,15 @@ in {
     home = "/home/cobra";
     description = "Misc; shared user for COBRA";
     openssh.authorizedKeys.keys = [beb82PubRSA];
+    hashedPassword = "$6$QAdG8xQTXgwnoM$gF.a.HmJYBO6gWDmgmPc3roNO2M7BluI6ZbYYTmEioSGqb0Rp1k.krbVVXoKdogr1QffbLgsA9J1Na7vC3MbE1";
+  };
+  users.users.na423 = {
+    isNormalUser = true;
+    extraGroups = [ ];
+    home = "/home/na423";
+    description = "Nana Ankrah";
+    openssh.authorizedKeys.keys = [na423PubRSA];
+    hashedPassword = "$6$DnyUr/mVOiC$C9OZzlHo82Rp4TBTvhQo..EiQpwbwmke8Sq9l9v//E/FZwAa.7lRFSnSnZ0TkiCLvXN23YwL6UpziteZ3SB.V/";
   };
 
   virtualisation.docker.enable = true;

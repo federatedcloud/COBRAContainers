@@ -29,12 +29,13 @@ when running in the terminal.
 
 In the nix-shell enviroment:
 
-0. `cp $GUROBI_HOME/examples/matlab/mip1.m ~/Documents/MATLAB/`
-1. `echo $GUROBI_HOME`
+0. `mkdir -p ~/Documents/MATLAB`
+1. `cp $GUROBI_HOME/examples/matlab/mip1.m ~/Documents/MATLAB/`
+2. `echo $GUROBI_HOME`
 
 In matlab (started from the nix-shell environment)
 
-2. `cd` to that directory in MATLAB, then `cd matlab`
+2. `cd` to that directory (obtained from  `echo $GUROBI_HOME`) in MATLAB, then `cd matlab`
 3. `gurobi_setup`
 4. `cd ~/Documents/MATLAB/`
 5. `mip1`

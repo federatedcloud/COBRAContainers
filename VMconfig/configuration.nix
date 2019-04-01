@@ -185,7 +185,8 @@ in {
       ln -sfn /run/current-system/sw/bin/dd /bin/dd
       ln -sfn /run/current-system/sw/bin/grep /bin/grep
       ln -sfn /run/current-system/sw/bin/mktemp /bin/mktemp
-      ln -sfn /run/current-system/sw/bin/pwd /bin/pwd      
+      ln -sfn /run/current-system/sw/bin/ps /bin/ps
+      ln -sfn /run/current-system/sw/bin/pwd /bin/pwd
       ln -sfn /run/current-system/sw/bin/python /bin/python
       ln -sfn /run/current-system/sw/bin/rm /bin/rm
       

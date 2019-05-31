@@ -11,7 +11,7 @@ PATCH_FILES=(
   $MATLAB_PATH/sys/java/jre/glnxa64/jre/bin/java
 )
 
-echo "Patching java..."
+echo "Patching java... ($MATLAB_PATH/sys/java/jre/glnxa64/jre/bin/java)"
 chmod u+rw "$MATLAB_PATH/sys/java/jre/glnxa64/jre/bin/java"
 patchelf --interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
   --set-rpath "$libPath:$(patchelf --print-rpath $MATLAB_PATH/sys/java/jre/glnxa64/jre/bin/java)"\

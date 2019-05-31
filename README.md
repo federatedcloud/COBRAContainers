@@ -22,8 +22,23 @@ In short:
 4. `nix-shell default.nix`
 5. `matlab -glnxa64`
 
-Alternatively, append `-nodesktop -nodisplay` to the `matlab` command
+Alternatively, append `-nodesktop -nodisplay` to the `matlab** command
 when running in the terminal.
+
+**Important**: You must execute the `nix-shell default.nix` command
+from the same directory specified above, as that directory
+contains another script that must be run.
+
+If you are wanting a single script to do all this for you, do e.g.:
+
+```bash
+#!/usr/bin/env bash
+cd /home/bebarker/workspace/COBRAContainers/nix/shells/MATLAB/ && \
+  nix-shell default.nix --run "matlab -glnxa64"
+```
+
+You can omit using the script if you have other ways to change the working
+directory, in e.g. desktop icon-based launchers.
 
 #### One-time-only for gurobi
 

@@ -75,7 +75,7 @@ stdenv.mkDerivation {
 
     export COBRA_HOME=${cobraToolboxLocal.out}
 
-    source patchMATLAB.sh
+    source ${./patchMATLAB.sh}
 
   '';
 }

@@ -99,6 +99,8 @@ in {
     git git-lfs tmux
     # Cloud
     # cloud-init # TODO: not working currently
+    # For MATLAB Engine API:
+    tcsh
   ];
 
   # List services that you want to enable:
@@ -190,6 +192,8 @@ in {
       ln -sfn /run/current-system/sw/bin/pwd /bin/pwd
       ln -sfn /run/current-system/sw/bin/python /bin/python
       ln -sfn /run/current-system/sw/bin/rm /bin/rm
+
+      ln -sfn /run/current-system/sw/bin/tcsh /bin/csh # For MATLAB Engine API
       
       mkdir -p /sbin
     '';

@@ -22,6 +22,11 @@ In short:
 4. `nix-shell default.nix`
 5. `matlab -glnxa64`
 
+**IMPORTANT Caveat:** If it is necessary to specify the `-glnxa64` option,
+the `matlab` shell script should instead be modified to hardcode `ARCH` as
+`glnxa64`. Aside from convenience, certain APIs like the MATLAB Engine API
+will not always work otherwise.
+
 Alternatively, append `-nodesktop -nodisplay` to the `matlab** command
 when running in the terminal.
 

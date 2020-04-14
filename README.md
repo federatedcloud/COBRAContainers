@@ -38,7 +38,7 @@ If you are wanting a single script to do all this for you, do e.g.:
 
 ```bash
 #!/usr/bin/env bash
-cd /home/bebarker/workspace/COBRAContainers/nix/shells/MATLAB/ && \
+cd /home/bebarker/workspace/COBRAContainers && \
   nix-shell default.nix --run "matlab -glnxa64"
 ```
 
@@ -57,8 +57,9 @@ In matlab (started from the nix-shell environment)
 
 2. `cd` to that directory (obtained from  `echo $GUROBI_HOME`) in MATLAB, then `cd matlab`
 3. `gurobi_setup`
-4. `cd ~/Documents/MATLAB/`
-5. `mip1`
+4. Type `savepath` as instructed
+5. `cd ~/Documents/MATLAB/`
+6. `mip1`
 
 You should see a solution printed out.
 

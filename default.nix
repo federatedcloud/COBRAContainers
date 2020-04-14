@@ -5,61 +5,53 @@
 
 with import <nixpkgs> {};
 let
-  matlabGcc = gcc49;
   gurobiPlatform = "linux64";
-  myGurobi = (import ../../packages/gurobi/default.nix);
+  myGurobi = (import nix/packages/gurobi/default.nix);
+  myMatlab = (import nix/packages/haskell-matlab/default.nix);
   cobraToolboxLocal = stdenv.mkDerivation {
     # This is a bit backwards, as it really should depend on MATLAB, once it is
     # converted into a derivation
     name = "cobraToolbox-local";
     src = fetchgit {
       url = "https://github.com/opencobra/cobratoolbox.git";
-      rev = "f3fe20df5c977cf0d212e12b1763bd96d15c8760";
-      sha256 = "0gqrpa1p51x0dp9m80q5b22xzfvzax2z03y0hg5zhw5qhhix08gl";
+      rev = "92518352da3dc1f63b7ef781345786f5cf73034c";
+      sha256 = "0dsz2046vjxv89imifacv15jkv6avg8xrssig6n7kxsv98i1rm29";
+      deepClone = true;
     };
-    buildInputs =  [ ];
+    buildInputs =  [git];
     builder = builtins.toFile "builder.sh" ''
       source $stdenv/setup
       mkdir -p $out
       cp -R $src/* $out/
+      cd $out/
+      rm -fr $out/.git
       # TODO: initCobraToolbox
     '';
   };
 in
-stdenv.mkDerivation {
-  name = "impureMatlabEnv";
-  inherit matlabGcc;
-  buildInputs = [
-    # cobraToolboxLocal # TODO: MATLAB should be dep of this (swap relationship)
-    matlabGcc
+haskell.lib.buildStackProject {
+  name = "cobraMatlabHaskellEnv";
+  dontUnpack = true;
+  buildInputs = myMatlab.buildInputs ++ [
+    cobraToolboxLocal # TODO: MATLAB should be dep of this (swap relationship)
     makeWrapper
     myGurobi
+    # myMatlab
     zlib
   ];
-
-  libPath = stdenv.lib.makeLibraryPath [
-    mesa_glu
-    ncurses
-    pam
-    xorg.libxcb
-    xorg.libXi
-    xorg.libXext
-    xorg.libXmu
-    xorg.libXp
-    xorg.libXpm
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libXt
-    xorg.libXtst
-    xorg.libXxf86vm
-    xorg.libX11
-    zlib
-  ];
+  libPath = myMatlab.libPath;
+  # buildPhase = "";
+  installPhase = "";
   src = null;
   shellHook = ''
-    export MATLAB_VERSION=R2017a
-    export MATLAB_PATH=/opt/MATLAB/$MATLAB_VERSION
+    # Copied or modified from MATLAB's default.nix:
+    export MATLAB_PATH=${myMatlab.matlabPath}
     export PATH=$PATH:$MATLAB_PATH/bin
+    source ${./nix/shells/MATLAB/patchMATLAB.sh}
+
+    # Access utilities install by stack, such as haskell-matlab programs
+    export PATH=$HOME/.local/bin:$PATH
+
     export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
     export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
 
@@ -74,8 +66,5 @@ stdenv.mkDerivation {
     #
 
     export COBRA_HOME=${cobraToolboxLocal.out}
-
-    source ${./patchMATLAB.sh}
-
   '';
 }

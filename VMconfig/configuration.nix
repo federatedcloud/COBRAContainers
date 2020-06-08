@@ -133,9 +133,9 @@ in {
   services.xserver.enable = true;
   services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
+  services.xserver.displayManager.defaultSession = "xfce";
 
   services.xserver.desktopManager = {
-    default = "xfce";
     xterm.enable = false;
     xfce.enable = true;
   };

@@ -2,7 +2,7 @@ with import <nixpkgs> {};
 let
   #TODO generify over platform using hostPlatform, etc.
   gurobiPlatform = "linux64";
-  version = "7.5.1";
+  version = "9.0.3";
 in  
 stdenv.mkDerivation {
   pname = "gurobi";
@@ -10,10 +10,10 @@ stdenv.mkDerivation {
   name = "gurobi-${version}";
   description = "A commercial convex and mixed integer optimization solver";
   src = fetchurl {
-    url = "http://packages.gurobi.com/7.5/gurobi7.5.1_${gurobiPlatform}.tar.gz";
-    sha256 = "7f5c8b0c3d3600ab7a1898f43e238a9d9a32ac1206f2917fb60be9bbb76111b6";
+    url = "http://packages.gurobi.com/9.0/gurobi9.0.3_${gurobiPlatform}.tar.gz";
+    sha256 = "4dfdb5fb1ca3bed5a230dd74b9da45d86abae934e6781d14dcfbc97c1c47dc2f";
   };
-  buildInputs = [ python27 ];
+  buildInputs = [ python37 ];
   installPhase = ''
     #
     # Note: the reason files are extracted to $out/${gurobiPlatform}
@@ -22,7 +22,7 @@ stdenv.mkDerivation {
     #
     mkdir -p $out/${gurobiPlatform}
     cp -R ${gurobiPlatform}/* $out/${gurobiPlatform}
-    rm $out/${gurobiPlatform}/bin/python2.7
+    rm $out/${gurobiPlatform}/bin/python3.7
     for exfi in $out/${gurobiPlatform}/bin/* ; do
       echo "EXFI is $exfi"
       if isELF "$exfi"; then
@@ -33,7 +33,7 @@ stdenv.mkDerivation {
     done
     ln -s $out/${gurobiPlatform}/bin $out/bin
     ln -s $out/${gurobiPlatform}/lib $out/lib
-    ln -s ${python27}/bin/python2.7 $out/${gurobiPlatform}/bin/python2.7
+    ln -s ${python37}/bin/python3.7 $out/${gurobiPlatform}/bin/python3.7
   '';
   GUROBI_HOME = "$out/${gurobiPlatform}";
 }

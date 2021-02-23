@@ -18,9 +18,8 @@ In short:
 
 #### Each time
 
-3. `cd ~/workspace/COBRAContainers/nix/shells/MATLAB`
-4. `nix-shell default.nix`
-5. `matlab -glnxa64`
+1. `nix-shell default.nix`
+2. `matlab -glnxa64`
 
 **IMPORTANT Caveat:** If it is necessary to specify the `-glnxa64` option,
 the `matlab` shell script should instead be modified to hardcode `ARCH` as

@@ -15,7 +15,7 @@ let
     src = fetchgit {
       url = "https://github.com/opencobra/cobratoolbox.git";
       rev = "92518352da3dc1f63b7ef781345786f5cf73034c";
-      sha256 = "0dsz2046vjxv89imifacv15jkv6avg8xrssig6n7kxsv98i1rm29";
+      sha256 = "00s94bnjggq2bz4q8fqfwkj65b0nkzqqxp1557ld8iab65dfsvr6";
       deepClone = true;
     };
     buildInputs =  [git];
@@ -37,6 +37,15 @@ haskell.lib.buildStackProject {
     makeWrapper
     myGurobi
     # myMatlab
+
+    # needed to run MATLAB (even without display):
+    ncurses6
+    pam
+    xorg.libX11
+    xorg.libXext
+    xorg.libXt
+    xorg.libxcb
+
     zlib
   ];
   libPath = myMatlab.libPath;
@@ -55,7 +64,7 @@ haskell.lib.buildStackProject {
     export GUROBI_HOME="${myGurobi.out}/${gurobiPlatform}"
     export GUROBI_PATH="${myGurobi.out}/${gurobiPlatform}"
 
-    export GRB_LICENSE_FILE="/opt/gurobi_CAC.lic"
+    export GRB_LICENSE_FILE="/opt/gurobi.lic"
     #
     # The single-user license files somewhat annoyingly keeps track of how many
     # sockets are present, so we need a different license and license file
